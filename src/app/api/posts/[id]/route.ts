@@ -3,6 +3,10 @@ import dbConnect from '@/lib/mongodb'
 import Post from '@/models/Post'
 import { requireAdmin } from '@/lib/auth'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const runtime = 'nodejs'
+
 // GET /api/posts/[id] - Get single post
 export async function GET(
   request: NextRequest,

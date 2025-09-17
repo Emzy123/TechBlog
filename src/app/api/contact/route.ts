@@ -3,6 +3,10 @@ import nodemailer from 'nodemailer'
 import { rateLimit, rateLimits } from '@/lib/rateLimit'
 import { validateEmail, validateString, sanitizeHtml } from '@/lib/security'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const runtime = 'nodejs'
+
 export async function POST(request: NextRequest) {
   try {
     // Apply rate limiting

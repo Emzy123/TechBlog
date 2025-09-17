@@ -5,6 +5,10 @@ import mongoose from 'mongoose'
 import { rateLimit, rateLimits } from '@/lib/rateLimit'
 import { validateEmail } from '@/lib/security'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const runtime = 'nodejs'
+
 // Newsletter subscriber schema
 const SubscriberSchema = new mongoose.Schema({
   email: {

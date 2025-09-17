@@ -4,6 +4,10 @@ import Post from '@/models/Post'
 import { getAuthUser, requireAdmin } from '@/lib/auth'
 import slugify from 'slugify'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const runtime = 'nodejs'
+
 // GET /api/posts - Get all posts (public)
 export async function GET(request: NextRequest) {
   try {
