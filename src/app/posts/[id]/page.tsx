@@ -29,6 +29,11 @@ export default function PostPage({ params }: { params: { id: string } }) {
   const [loading, setLoading] = useState(true)
   const [relatedPosts, setRelatedPosts] = useState<Post[]>([])
   const router = useRouter()
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL && process.env.NEXT_PUBLIC_SITE_URL.startsWith('http')
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : process.env.NEXT_PUBLIC_SITE_URL
+    ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
+    : 'http://localhost:3000') as string
 
   useEffect(() => {
     fetchPost()
@@ -102,6 +107,33 @@ export default function PostPage({ params }: { params: { id: string } }) {
       
       <article className="pt-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
+          {/* Article JSON-LD for SEO */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Article',
+                headline: post.title,
+                image: [post.thumbnail],
+                datePublished: new Date(post.createdAt).toISOString(),
+                author: [{ '@type': 'Person', name: post.author }],
+                publisher: {
+                  '@type': 'Organization',
+                  name: 'TechBlog by Tech Trend Innovation',
+                  logo: {
+                    '@type': 'ImageObject',
+                    url: `${siteUrl}/favicon.svg`,
+                  },
+                },
+                mainEntityOfPage: `${siteUrl}/posts/${post._id}`,
+                url: `${siteUrl}/posts/${post._id}`,
+                keywords: Array.isArray(post.tags) ? post.tags.join(', ') : undefined,
+                articleSection: post.category,
+                description: post.excerpt,
+              }),
+            }}
+          />
           {/* Hero Section */}
           <motion.div
             className="mb-12"

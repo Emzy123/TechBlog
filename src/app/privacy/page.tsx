@@ -26,7 +26,7 @@ export default function PrivacyPage() {
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Your privacy is important to us. This policy explains how we collect, use, and protect your information.
             </p>
-            <p className="text-sm text-gray-400 mt-4">Last updated: September 16, 2025</p>
+            <p className="text-sm text-gray-400 mt-4">Last updated: September 18, 2025</p>
           </motion.div>
 
           <div className="space-y-8">
@@ -103,6 +103,10 @@ export default function PrivacyPage() {
                   <div className="mt-6 p-4 bg-glass-black rounded-lg border border-white/10">
                     <h4 className="text-lg font-semibold text-neon-purple mb-2">Third-Party Services</h4>
                     <p className="text-sm">We use Google Analytics and Google AdSense, which may collect and process data according to their own privacy policies.</p>
+                    <ul className="list-disc list-inside mt-3 space-y-1 ml-4 text-sm text-gray-400">
+                      <li>Google Analytics helps us understand how visitors use our site. Learn more at Google’s Privacy Policy.</li>
+                      <li>Google AdSense uses cookies to serve ads based on prior visits. You may opt out of personalized advertising by visiting Google’s Ads Settings.</li>
+                    </ul>
                   </div>
                 </div>
               </GlassCard>
@@ -146,7 +150,7 @@ export default function PrivacyPage() {
                     <li><strong>Opt-out:</strong> Unsubscribe from marketing communications at any time</li>
                   </ul>
                   <div className="mt-6 p-4 bg-neon-blue/10 rounded-lg border border-neon-blue/30">
-                    <p className="text-sm">To exercise these rights, please contact us at <span className="text-neon-blue">privacy@techblog.com</span></p>
+                    <p className="text-sm">To exercise these rights, please contact us at <span className="text-neon-blue">techtrendinnovation0@gmail.com</span></p>
                   </div>
                 </div>
               </GlassCard>
@@ -184,7 +188,7 @@ export default function PrivacyPage() {
               <GlassCard className="p-8 text-center">
                 <h2 className="text-3xl font-bold text-white mb-4">Questions About This Policy?</h2>
                 <p className="text-gray-300 mb-6">
-                  If you have any questions about this Privacy Policy, please don't hesitate to contact us.
+                  If you have any questions about this Privacy Policy, please contact us at <span className="text-neon-blue">techtrendinnovation0@gmail.com</span>.
                 </p>
                 <motion.a
                   href="/contact"

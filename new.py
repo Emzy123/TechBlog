@@ -1,13 +1,7 @@
-
+# secure_random_key.py
 import secrets
-import string
 
-def generate_password(length):
-    # Use alphanumeric + safe special chars for environment variables
-    characters = string.ascii_letters + string.digits + "!@#$%^&*-_=+"
-    password = ''.join(secrets.choice(characters) for i in range(length))
-    return password
-
-length = 24
-password = generate_password(length)
-print(password)
+# generate a 64-byte (512-bit) key, returned as 128 hex chars
+key = secrets.token_hex(128)
+print(key)
+node scripts/create-admin.js --username admin2512 --email techtrendinnovation0@gmail.com --password "Admin25121$" --role admin

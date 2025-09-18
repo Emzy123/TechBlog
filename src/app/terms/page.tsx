@@ -26,7 +26,7 @@ export default function TermsPage() {
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Please read these terms carefully before using TechBlog.
             </p>
-            <p className="text-sm text-gray-400 mt-4">Last updated: September 16, 2025</p>
+            <p className="text-sm text-gray-400 mt-4">Last updated: September 18, 2025</p>
           </motion.div>
 
           <div className="space-y-8">
@@ -44,8 +44,8 @@ export default function TermsPage() {
                     and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
                   </p>
                   <p>
-                    These Terms of Service ("Terms") govern your use of our website located at techblog.com 
-                    (the "Service") operated by TechBlog ("us", "we", or "our").
+                    These Terms of Service ("Terms") govern your use of our website located at https://techblog-murex.vercel.app 
+                    (the "Service") operated by TechBlog by Tech Trend Innovation ("us", "we", or "our").
                   </p>
                 </div>
               </GlassCard>

@@ -18,8 +18,9 @@ export async function POST(request: NextRequest) {
     await dbConnect()
     
     const { username, password } = await request.json()
+    const identifier = (username || '').trim()
 
-    if (!username || !password) {
+    if (!identifier || !password) {
       return NextResponse.json(
         { error: 'Username and password are required' },
         { status: 400 }
@@ -27,7 +28,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate input lengths
-    if (!validateString(username, 3, 30) || !validateString(password, 6, 100)) {
+    if (!validateString(identifier, 3, 100) || !validateString(password, 6, 100)) {
       return NextResponse.json(
         { error: 'Invalid username or password format' },
         { status: 400 }
@@ -35,7 +36,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Find user and include password for comparison
-    const user = await User.findOne({ username }).select('+password')
+    const user = await User.findOne({
+      $or: [
+        { username: identifier },
+        { email: { $regex: `^${identifier}$`, $options: 'i' } },
+      ],
+    }).select('+password')
     
     if (!user) {
       return NextResponse.json(
