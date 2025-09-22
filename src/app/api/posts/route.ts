@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
     await post.save()
     
     return NextResponse.json({
+      success: true,
       message: 'Post created successfully',
       post,
     }, { status: 201 })

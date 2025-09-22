@@ -13,6 +13,7 @@ export interface IPost extends Document {
   updatedAt: Date
   views: number
   tags: string[]
+  scheduledFor?: Date
 }
 
 const PostSchema: Schema = new Schema({
@@ -59,6 +60,9 @@ const PostSchema: Schema = new Schema({
   tags: [{
     type: String,
   }],
+  scheduledFor: {
+    type: Date,
+  },
 }, {
   timestamps: true,
 })

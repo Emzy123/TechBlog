@@ -67,6 +67,15 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
     ],
   }
 
+  const quillFormats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image', 'video',
+    'color', 'background',
+    'code-block'
+  ]
+
   useEffect(() => {
     fetchPost()
   }, [params.id])
@@ -308,6 +317,7 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
                     value={formData.content}
                     onChange={handleContentChange}
                     modules={quillModules}
+                    formats={quillFormats}
                     placeholder="Write your blog post content here..."
                     style={{ minHeight: '300px' }}
                   />

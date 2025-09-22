@@ -8,6 +8,7 @@ import { format } from 'date-fns'
 import Navbar from '@/components/ui/Navbar'
 import GlassCard from '@/components/ui/GlassCard'
 import Button from '@/components/ui/Button'
+import ContentResearch from '@/components/admin/ContentResearch'
 
 interface Post {
   _id: string
@@ -31,6 +32,7 @@ export default function AdminDashboard() {
   const [user, setUser] = useState<User | null>(null)
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'content-research'>('dashboard')
   const [stats, setStats] = useState({
     totalPosts: 0,
     publishedPosts: 0,
@@ -160,153 +162,184 @@ export default function AdminDashboard() {
               Admin Dashboard
             </h1>
             <p className="text-gray-400">
-              Welcome back, {user.username}! Manage your blog posts and settings.
+              Welcome back, {user.username}! Manage your blog posts and AI content generation.
             </p>
           </motion.div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <GlassCard className="text-center">
-              <h3 className="text-2xl font-bold text-neon-blue">{stats.totalPosts}</h3>
-              <p className="text-gray-400">Total Posts</p>
-            </GlassCard>
-            <GlassCard className="text-center">
-              <h3 className="text-2xl font-bold text-green-400">{stats.publishedPosts}</h3>
-              <p className="text-gray-400">Published</p>
-            </GlassCard>
-            <GlassCard className="text-center">
-              <h3 className="text-2xl font-bold text-yellow-400">{stats.draftPosts}</h3>
-              <p className="text-gray-400">Drafts</p>
-            </GlassCard>
-            <GlassCard className="text-center">
-              <h3 className="text-2xl font-bold text-neon-purple">{stats.totalViews}</h3>
-              <p className="text-gray-400">Total Views</p>
-            </GlassCard>
-          </div>
-
-          {/* Actions */}
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-bold text-white">Manage Posts</h2>
-            <Button
-              variant="primary"
-              onClick={() => router.push('/admin/posts/new')}
+          {/* Navigation Tabs */}
+          <div className="flex space-x-1 mb-8 bg-glass-black rounded-lg p-1">
+            <button
+              onClick={() => setActiveTab('dashboard')}
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeTab === 'dashboard'
+                  ? 'bg-neon-blue text-white'
+                  : 'text-gray-400 hover:text-white'
+              }`}
             >
-              Create New Post
-            </Button>
+              Dashboard
+            </button>
+            <button
+              onClick={() => setActiveTab('content-research')}
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeTab === 'content-research'
+                  ? 'bg-neon-blue text-white'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              🤖 AI Content Hub
+            </button>
           </div>
 
-          {/* Posts Table */}
-          <GlassCard className="overflow-hidden">
-            {loading ? (
-              <div className="p-8 text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-neon-blue mx-auto"></div>
-                <p className="text-gray-400 mt-4">Loading posts...</p>
+          {/* Tab Content */}
+          {activeTab === 'dashboard' ? (
+            <>
+              {/* Stats Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <GlassCard className="text-center">
+                  <h3 className="text-2xl font-bold text-neon-blue">{stats.totalPosts}</h3>
+                  <p className="text-gray-400">Total Posts</p>
+                </GlassCard>
+                <GlassCard className="text-center">
+                  <h3 className="text-2xl font-bold text-green-400">{stats.publishedPosts}</h3>
+                  <p className="text-gray-400">Published</p>
+                </GlassCard>
+                <GlassCard className="text-center">
+                  <h3 className="text-2xl font-bold text-yellow-400">{stats.draftPosts}</h3>
+                  <p className="text-gray-400">Drafts</p>
+                </GlassCard>
+                <GlassCard className="text-center">
+                  <h3 className="text-2xl font-bold text-neon-purple">{stats.totalViews}</h3>
+                  <p className="text-gray-400">Total Views</p>
+                </GlassCard>
               </div>
-            ) : posts.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-glass-black">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                        Title
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                        Category
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                        Status
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                        Views
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                        Created
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/10">
-                    {posts.map((post, index) => (
-                      <motion.tr
-                        key={post._id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: index * 0.05 }}
-                        className="hover:bg-glass-white transition-colors duration-200"
-                      >
-                        <td className="px-6 py-4">
-                          <div className="text-sm font-medium text-white truncate max-w-xs">
-                            {post.title}
-                          </div>
-                          <div className="text-sm text-gray-400 truncate max-w-xs">
-                            {post.excerpt}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className="px-2 py-1 text-xs bg-neon-blue/20 text-neon-blue rounded-full">
-                            {post.category}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className={`px-2 py-1 text-xs rounded-full ${
-                            post.published 
-                              ? 'bg-green-500/20 text-green-400' 
-                              : 'bg-yellow-500/20 text-yellow-400'
-                          }`}>
-                            {post.published ? 'Published' : 'Draft'}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-400">
-                          {post.views}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-400">
-                          {format(new Date(post.createdAt), 'MMM dd, yyyy')}
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex space-x-2">
-                            <Button
-                              variant="secondary"
-                              size="sm"
-                              onClick={() => router.push(`/admin/posts/${post._id}`)}
-                            >
-                              Edit
-                            </Button>
-                            <Button
-                              variant={post.published ? 'secondary' : 'primary'}
-                              size="sm"
-                              onClick={() => togglePublishStatus(post._id, post.published)}
-                            >
-                              {post.published ? 'Unpublish' : 'Publish'}
-                            </Button>
-                            <Button
-                              variant="danger"
-                              size="sm"
-                              onClick={() => handleDeletePost(post._id)}
-                            >
-                              Delete
-                            </Button>
-                          </div>
-                        </td>
-                      </motion.tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <div className="p-8 text-center">
-                <h3 className="text-xl font-bold text-white mb-4">No Posts Yet</h3>
-                <p className="text-gray-400 mb-6">Create your first blog post to get started.</p>
+
+              {/* Actions */}
+              <div className="flex justify-between items-center mb-8">
+                <h2 className="text-2xl font-bold text-white">Manage Posts</h2>
                 <Button
                   variant="primary"
                   onClick={() => router.push('/admin/posts/new')}
                 >
-                  Create First Post
+                  Create New Post
                 </Button>
               </div>
-            )}
-          </GlassCard>
+
+              {/* Posts Table */}
+              <GlassCard className="overflow-hidden">
+                {loading ? (
+                  <div className="p-8 text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-neon-blue mx-auto"></div>
+                    <p className="text-gray-400 mt-4">Loading posts...</p>
+                  </div>
+                ) : posts.length > 0 ? (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-glass-black">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                            Title
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                            Category
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                            Status
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                            Views
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                            Created
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/10">
+                        {posts.map((post, index) => (
+                          <motion.tr
+                            key={post._id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: index * 0.05 }}
+                            className="hover:bg-glass-white transition-colors duration-200"
+                          >
+                            <td className="px-6 py-4">
+                              <div className="text-sm font-medium text-white truncate max-w-xs">
+                                {post.title}
+                              </div>
+                              <div className="text-sm text-gray-400 truncate max-w-xs">
+                                {post.excerpt}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className="px-2 py-1 text-xs bg-neon-blue/20 text-neon-blue rounded-full">
+                                {post.category}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className={`px-2 py-1 text-xs rounded-full ${
+                                post.published 
+                                  ? 'bg-green-500/20 text-green-400' 
+                                  : 'bg-yellow-500/20 text-yellow-400'
+                              }`}>
+                                {post.published ? 'Published' : 'Draft'}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-400">
+                              {post.views}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-400">
+                              {format(new Date(post.createdAt), 'MMM dd, yyyy')}
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="flex space-x-2">
+                                <Button
+                                  variant="secondary"
+                                  size="sm"
+                                  onClick={() => router.push(`/admin/posts/${post._id}`)}
+                                >
+                                  Edit
+                                </Button>
+                                <Button
+                                  variant={post.published ? 'secondary' : 'primary'}
+                                  size="sm"
+                                  onClick={() => togglePublishStatus(post._id, post.published)}
+                                >
+                                  {post.published ? 'Unpublish' : 'Publish'}
+                                </Button>
+                                <Button
+                                  variant="danger"
+                                  size="sm"
+                                  onClick={() => handleDeletePost(post._id)}
+                                >
+                                  Delete
+                                </Button>
+                              </div>
+                            </td>
+                          </motion.tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="p-8 text-center">
+                    <h3 className="text-xl font-bold text-white mb-4">No Posts Yet</h3>
+                    <p className="text-gray-400 mb-6">Create your first blog post to get started.</p>
+                    <Button
+                      variant="primary"
+                      onClick={() => router.push('/admin/posts/new')}
+                    >
+                      Create First Post
+                    </Button>
+                  </div>
+                )}
+              </GlassCard>
+            </>
+          ) : (
+            <ContentResearch />
+          )}
         </div>
       </div>
     </div>

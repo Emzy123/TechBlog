@@ -54,6 +54,15 @@ export default function NewPostPage() {
     ],
   }
 
+  const quillFormats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image', 'video',
+    'color', 'background',
+    'code-block'
+  ]
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target
     setFormData(prev => ({
@@ -243,6 +252,7 @@ export default function NewPostPage() {
                     value={formData.content}
                     onChange={handleContentChange}
                     modules={quillModules}
+                    formats={quillFormats}
                     placeholder="Write your blog post content here..."
                     style={{ minHeight: '300px' }}
                   />

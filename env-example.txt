@@ -1,0 +1,29 @@
+# AI Content Generation API Keys
+# Add these to your .env.local file for real-time AI content generation
+
+# OpenAI API Key (Primary AI provider)
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Anthropic Claude API Key (Fallback AI provider)
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+
+# Google AI (Gemini) API Key (Second fallback)
+GOOGLE_AI_API_KEY=your_google_ai_api_key_here
+
+# Stock Photo APIs for Dynamic Thumbnails
+# Unsplash API Key (Primary image provider)
+UNSPLASH_ACCESS_KEY=your_unsplash_access_key_here
+
+# Pexels API Key (Fallback image provider)
+PEXELS_API_KEY=your_pexels_api_key_here
+
+# Instructions:
+# 1. Copy this file to .env.local
+# 2. Replace the placeholder values with your actual API keys
+# 3. Get API keys from:
+#    - OpenAI: https://platform.openai.com/api-keys
+#    - Anthropic: https://console.anthropic.com/
+#    - Google AI: https://makersuite.google.com/app/apikey
+#    - Unsplash: https://unsplash.com/developers
+#    - Pexels: https://www.pexels.com/api/
+# 4. The system will work with fallbacks if some keys are missing
